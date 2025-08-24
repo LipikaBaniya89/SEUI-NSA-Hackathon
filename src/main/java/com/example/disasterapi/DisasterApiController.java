@@ -11,7 +11,7 @@ import java.util.Map;
 
 @SpringBootApplication
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api1")
 public class DisasterApiController {
 
     private final DisasterService disasterService;

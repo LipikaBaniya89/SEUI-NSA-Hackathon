@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * A Data Transfer Object (DTO) to represent the complete disaster help response,
- * including disaster details and a list of recommended tasks.
+ * including disaster details, an icon, and a list of recommended tasks.
  */
 public class DisasterHelpResponse {
 
@@ -12,16 +12,19 @@ public class DisasterHelpResponse {
     private int peopleAffected;
     private String disasterDetails;
     private String recommendedDisaster;
+    private String disasterIcon; // URL to an icon/image representing the disaster
     private List<TaskRecommendation> helpTasks;
 
     public DisasterHelpResponse() {
     }
 
-    public DisasterHelpResponse(String disasterType, int peopleAffected, String disasterDetails, String recommendedDisaster, List<TaskRecommendation> helpTasks) {
+    public DisasterHelpResponse(String disasterType, int peopleAffected, String disasterDetails,
+                                String recommendedDisaster, String disasterIcon, List<TaskRecommendation> helpTasks) {
         this.disasterType = disasterType;
         this.peopleAffected = peopleAffected;
         this.disasterDetails = disasterDetails;
         this.recommendedDisaster = recommendedDisaster;
+        this.disasterIcon = disasterIcon;
         this.helpTasks = helpTasks;
     }
 
@@ -58,6 +61,14 @@ public class DisasterHelpResponse {
         this.recommendedDisaster = recommendedDisaster;
     }
 
+    public String getDisasterIcon() {
+        return disasterIcon;
+    }
+
+    public void setDisasterIcon(String disasterIcon) {
+        this.disasterIcon = disasterIcon;
+    }
+
     public List<TaskRecommendation> getHelpTasks() {
         return helpTasks;
     }
@@ -73,6 +84,7 @@ public class DisasterHelpResponse {
                ", peopleAffected=" + peopleAffected +
                ", disasterDetails='" + disasterDetails + '\'' +
                ", recommendedDisaster='" + recommendedDisaster + '\'' +
+               ", disasterIcon='" + disasterIcon + '\'' +
                ", helpTasks=" + helpTasks +
                '}';
     }

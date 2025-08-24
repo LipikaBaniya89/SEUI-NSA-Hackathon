@@ -8,6 +8,7 @@ import com.example.disasterapi.utilities.PromptBuilder;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 import java.util.Map;
@@ -48,31 +49,44 @@ public class DisasterHelpController {
         );
 
         // 3. Define the desired JSON schema for the entire response object.
-        String jsonSchema = """
-            {
-              "type": "object",
-              "properties": {
-                "disasterType": { "type": "string" },
-                "peopleAffected": { "type": "number" },
-                "disasterDetails": { "type": "string" },
-                "recommendedDisaster": { "type": "string" },
-                "helpTasks": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "taskDescription": { "type": "string" },
-                      "detailedDescription": { "type": "string" },
-                      "link": { "type": "string" },
-                      "helpType": { "type": "string" }
-                    },
-                    "required": ["taskDescription", "detailedDescription", "link", "helpType"]
-                  }
-                }
-              },
-              "required": ["disasterType", "peopleAffected", "disasterDetails", "recommendedDisaster", "helpTasks"]
-            }
-            """;
+String jsonSchema = """
+{
+  "type": "object",
+  "properties": {
+    "disasterType": { "type": "string" },
+    "peopleAffected": { "type": "number" },
+    "disasterDetails": { "type": "string" },
+    "recommendedDisaster": { "type": "string" },
+    "disasterIcon": { "type": "string", "description": "URL to an icon/image representing the disaster" },
+    "helpTasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "taskDescription": { "type": "string" },
+          "detailedDescription": { "type": "string" },
+          "link": { "type": "string" },
+          "helpType": { "type": "string" },
+          "taskIcon": { "type": "string", "description": "URL to an icon/image representing this task" },
+          "precautions": { 
+            "type": "array", 
+            "items": { "type": "string" },
+            "description": "Precautionary steps or safety info for volunteers doing this task"
+          },
+          "steps": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Step-by-step instructions for performing this task"
+          }
+        },
+        "required": ["taskDescription", "detailedDescription", "link", "helpType", "taskIcon", "precautions", "steps"]
+      }
+    }
+  },
+  "required": ["disasterType", "peopleAffected", "disasterDetails", "recommendedDisaster", "helpTasks"]
+}
+""";
+
 
         // 4. Call a specialized service method to get a structured JSON response.
         String jsonString = geminiService.askGeminiStructured(
