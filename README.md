@@ -25,10 +25,8 @@ The **frontend** for this project is located in a separate repository: [Disaster
 ## Tech Stack
 - **Frontend:** .NET (Blazor or Razor Pages) — see frontend repo
 - **Backend:** Java Spring Boot with Maven
-- **Database:** PostgreSQL / MySQL / H2 (for development)
-- **LLM Integration:** OpenAI API / GPT-5
-- **External APIs:** Disaster data providers (e.g., FEMA, ReliefWeb)
-- **Authentication:** JWT / OAuth2
+- **Database:** MySQL 
+
 
 ---
 
