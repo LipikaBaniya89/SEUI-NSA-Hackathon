@@ -46,6 +46,8 @@ public class AppUser {
 
     @NotNull
     private String address;
+    @Column(columnDefinition = "DOUBLE") private Double latitude;   // derived
+    @Column(columnDefinition = "DOUBLE") private Double longitude;  // derived
 
     @Column(name = "radius_meters", nullable = false)
     private Integer radiusMeters = 10000;
@@ -60,4 +62,6 @@ public class AppUser {
     private boolean wantsEmail = true;
     @Column(nullable = false)
     private boolean wantsSms = false;
+
+
 }

@@ -67,4 +67,5 @@ public class MatchingService {
         if (na == 0 || nb == 0) return 0;
         return dot / (Math.sqrt(na) * Math.sqrt(nb));
     }
+
 }

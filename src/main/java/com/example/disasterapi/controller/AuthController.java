@@ -5,6 +5,8 @@ import com.example.disasterapi.domain.AppRole;
 import com.example.disasterapi.domain.AppUser;
 import com.example.disasterapi.repo.AppUserRepository;
 import com.example.disasterapi.security.JwtService;
+import com.example.disasterapi.service.GeoResult;
+import com.example.disasterapi.service.GeocodingService;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -35,6 +37,7 @@ public class AuthController {
     private final PasswordEncoder encoder;
     private final AuthenticationManager authManager;
     private final JwtService jwt;
+    private final GeocodingService geocodingService;
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest r) {
@@ -48,14 +51,29 @@ public class AuthController {
                 .lastName(r.getLastName())
                 .role(r.getRole() == null ? AppRole.USER : r.getRole()).enabled(true)
                 .address(r.getAddress())
+                .latitude(getGeoCode(r.getAddress()).lat())
+                .longitude(getGeoCode(r.getAddress()).lon())
                 .radiusMeters(r.getRadiusMeters() == null ? 10000 : r.getRadiusMeters())
                 .skills(new HashSet<>(r.getSkills() == null ? List.of() : r.getSkills()))
-                .phone(r.getPhone()).wantsEmail(Boolean.TRUE.equals(r.getWantsEmail())).wantsSms(Boolean.TRUE.equals(r.getWantsSms()))
+                .phone(r.getPhone())
+                .wantsEmail(Boolean.TRUE.equals(r.getWantsEmail()))
+                .wantsSms(Boolean.TRUE.equals(r.getWantsSms()))
                 .build();
         users.save(u);
         String token = jwt.generate(u.getEmail(), Map.of("role", u.getRole().name(), "uid", u.getId()));
         return ResponseEntity.ok(Map.of("token", token));
     }
+
+    private GeoResult getGeoCode(String address) {
+        String a = (address == null) ? "" : address.trim();
+        if (a.isEmpty()) {
+            throw new IllegalArgumentException("Address is required");
+        }
+        return geocodingService.geocode(a)
+                .orElseThrow(() -> new IllegalArgumentException("Could not geocode address: " + a));
+    }
+
+
 
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestBody SigninRequest r) {
