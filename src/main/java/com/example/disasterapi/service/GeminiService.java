@@ -16,7 +16,7 @@ public class GeminiService {
     private final WebClient webClient;
     private final ObjectMapper objectMapper;
 
-    @Value("${GEMINI_API_KEY}")
+    @Value("${gemini.api.key}")
     private String apiKey;
 
     public GeminiService(WebClient.Builder builder, ObjectMapper objectMapper) {
