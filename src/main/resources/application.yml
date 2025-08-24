@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: volunteer-disaster-app
+  datasource:
+    url: jdbc:mysql://sql5.freesqldatabase.com/sql5795879
+    username: sql5795879
+    password: mmJCuVvhRL
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+app:
+  jwt:
+    secret: a440462443eacea5311b48e8da06773f39cc6ad40822a45843522b9cffa07ecfcb215af540693446
+    expirationMinutes: 240
+
+  match:
+    threshold: 0.6
+    lookbackHours: 48
+
+  ingestors:
+    usgs:
+      enabled: true
+      pollMs: 300000
+
+  notify:
+    email:
+      enabled: true
+      from: "noreply@yourdomain.com"
+      sendgridApiKey: "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"
+    sms:
+      enabled: false
+      from: "+12345550000"
+      accountSid: ""
+      authToken: ""
+
+logging:
+  level:
+    root: INFO
+    com.example.volunteer: DEBUG

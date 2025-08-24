@@ -47,7 +47,7 @@ public class AuthController {
                 .firstName(r.getFirstName())
                 .lastName(r.getLastName())
                 .role(r.getRole() == null ? AppRole.USER : r.getRole()).enabled(true)
-                .latitude(r.getLatitude()).longitude(r.getLongitude())
+                .address(r.getAddress())
                 .radiusMeters(r.getRadiusMeters() == null ? 10000 : r.getRadiusMeters())
                 .skills(new HashSet<>(r.getSkills() == null ? List.of() : r.getSkills()))
                 .phone(r.getPhone()).wantsEmail(Boolean.TRUE.equals(r.getWantsEmail())).wantsSms(Boolean.TRUE.equals(r.getWantsSms()))
@@ -77,9 +77,7 @@ public class AuthController {
         private String lastName;
         private AppRole role;
         @NotNull
-        private Double latitude;
-        @NotNull
-        private Double longitude;
+        private String address;
         private Integer radiusMeters;
         private List<String> skills;
         private String phone;

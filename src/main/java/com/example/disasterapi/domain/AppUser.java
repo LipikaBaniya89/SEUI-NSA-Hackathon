@@ -45,9 +45,7 @@ public class AppUser {
     private boolean enabled = true;
 
     @NotNull
-    private Double latitude;
-    @NotNull
-    private Double longitude;
+    private String address;
 
     @Column(name = "radius_meters", nullable = false)
     private Integer radiusMeters = 10000;

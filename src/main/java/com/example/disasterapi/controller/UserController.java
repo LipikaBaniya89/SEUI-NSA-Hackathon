@@ -28,8 +28,7 @@ public class UserController {
         var u = users.findByEmail(auth.getName()).orElseThrow();
         if (r.getFirstName() != null) u.setFirstName(r.getFirstName());
         if (r.getLastName() != null) u.setLastName(r.getLastName());
-        if (r.getLatitude() != null) u.setLatitude(r.getLatitude());
-        if (r.getLongitude() != null) u.setLongitude(r.getLongitude());
+        if (r.getAddress() != null) u.setAddress(r.getAddress());
         if (r.getRadiusMeters() != null) u.setRadiusMeters(r.getRadiusMeters());
         if (r.getSkills() != null) u.setSkills(new HashSet<>(r.getSkills()));
         if (r.getPhone() != null) u.setPhone(r.getPhone());
@@ -43,8 +42,7 @@ public class UserController {
     public static class UpdateProfile {
         private String firstName;
         private String lastName;
-        private Double latitude;
-        private Double longitude;
+        private String address;
         private Integer radiusMeters;
         private List<String> skills;
         private String phone;
