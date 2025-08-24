@@ -2,7 +2,7 @@
 
 This repository contains the **backend** for the Disaster Volunteer Matching App. The app connects volunteers with disaster relief efforts. It fetches real-time disaster data and uses user profiles to generate personalized recommendations with the help of a Large Language Model (LLM).
 
-The **frontend** for this project is located in a separate repository: [Disaster Volunteer Frontend](https://github.com/yourusername/disaster-volunteer-frontend).
+The **frontend** for this project is located in a separate repository: [Disaster Volunteer Frontend]([https://github.com/yourusername/disaster-volunteer-frontend](https://github.com/LipikaBaniya89/SEUI-FrontEnd.git)).
 
 ---
 
@@ -10,13 +10,7 @@ The **frontend** for this project is located in a separate repository: [Disaster
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Installation](#installation)
-- [Usage](#usage)
-- [API Integration](#api-integration)
-- [LLM Integration](#llm-integration)
-- [Frontend](#frontend)
-- [Contributing](#contributing)
-- [License](#license)
-
+- 
 ---
 
 ## Features
