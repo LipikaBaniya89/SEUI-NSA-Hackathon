@@ -1,6 +1,7 @@
 package com.example.disasterapi;
 
 import com.example.disasterapi.dto.DisasterHelpResponse;
+import com.example.disasterapi.dto.HelpRequest;
 import com.example.disasterapi.service.DisasterService;
 import com.example.disasterapi.service.GeminiService;
 import com.example.disasterapi.utilities.PromptBuilder;
@@ -24,35 +25,28 @@ public class DisasterHelpController {
     }
 
     /**
-     * Provides a comprehensive disaster help response, including disaster details and
-     * a prioritized list of tasks for a person to help with.
+     * Provides a comprehensive disaster help response for a person via a POST request.
+     * The person's details are sent in the request body.
      *
-     * @param name The name of the person.
-     * @param skill The skill of the person.
-     * @param location The current location of the person.
-     * @param radius The search radius for nearby disasters in miles.
-     * @return A DisasterHelpResponse object containing disaster information and a list of prioritized tasks.
+     * @param request The HelpRequest object containing the person's name, skill, location, and radius.
+     * @return A DisasterHelpResponse object with disaster details and a list of prioritized tasks.
      * @throws Exception if there is an issue getting the data or parsing the response.
      */
-    @GetMapping("/help")
-    public DisasterHelpResponse getHelp(@RequestParam String name,
-                                        @RequestParam String skill,
-                                        @RequestParam String location,
-                                        @RequestParam(defaultValue = "500") int radius) throws Exception {
+    @PostMapping("/help")
+    public DisasterHelpResponse getHelp(@RequestBody HelpRequest request) throws Exception {
 
         // 1. Get nearby disasters. This part remains the same.
-        List<Map<String, Object>> disasters = disasterService.getDisasters(location, radius);
+        List<Map<String, Object>> disasters = disasterService.getDisasters(request.getLocation(), request.getRadius());
 
         ObjectMapper mapper = new ObjectMapper();
         String disastersJson = mapper.writeValueAsString(disasters);
 
-        // 2. Build the prompt using the centralized PromptBuilder, now with a request for URL links.
+        // 2. Build the prompt using the centralized PromptBuilder.
         String prompt = PromptBuilder.buildDisasterHelpPrompt(
-            name, skill, location, disastersJson // true indicates a request for URL links
+            request.getName(), request.getSkill(), request.getLocation(), disastersJson
         );
 
         // 3. Define the desired JSON schema for the entire response object.
-        // This schema now includes top-level properties for disaster details.
         String jsonSchema = """
             {
               "type": "object",
@@ -79,14 +73,14 @@ public class DisasterHelpController {
             }
             """;
 
-        // 4. Call a new, specialized service method to get a structured JSON response.
+        // 4. Call a specialized service method to get a structured JSON response.
         String jsonString = geminiService.askGeminiStructured(
             "gemini-2.5-flash-preview-05-20",
             prompt,
             jsonSchema
         );
 
-        // 5. Directly map the guaranteed-to-be-valid JSON string to the new DTO.
+        // 5. Directly map the guaranteed-to-be-valid JSON string to the DTO.
         return mapper.readValue(jsonString, DisasterHelpResponse.class);
     }
 }
