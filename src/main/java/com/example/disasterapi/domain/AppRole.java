@@ -1,0 +1,1 @@
+package com.example.disasterapi.domain; public enum AppRole { USER, AUTHORITY }
