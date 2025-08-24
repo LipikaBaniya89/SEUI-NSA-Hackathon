@@ -1,4 +1,4 @@
-package com.example.disasterapi;
+package com.example.disasterapi.service;
 
 import org.springframework.web.client.RestTemplate;
 import java.util.List;
